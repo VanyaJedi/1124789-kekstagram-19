@@ -13,26 +13,26 @@ var getRandomArrValue = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
-var generateComments = function (cnt) {
+var generateComments = function (cnt, messages, names) {
   var comments = [];
   for (var i = 0; i < cnt; i++) {
     var comment = {};
     comment.avatar = 'img/avatar-' + getRandomInt(1, 6) + '.svg';
-    comment.message = getRandomArrValue(COMMENT_MESSAGES);
-    comment.name = getRandomArrValue(COMMENT_NAMES);
+    comment.message = getRandomArrValue(messages);
+    comment.name = getRandomArrValue(names);
     comments.push(comment);
   }
   return comments;
 };
 
-var generatePhotoObjects = function (cnt) {
+var generatePhotoObjects = function (cnt, messages, names, descriptions) {
   var photos = [];
   for (var i = 0; i < cnt; i++) {
     var photo = {};
     photo.url = 'photos/' + (i + 1) + '.jpg';
-    photo.description = getRandomArrValue(PICTURE_DESCRIPTIONS);
+    photo.description = getRandomArrValue(descriptions);
     photo.likes = getRandomInt(15, 200);
-    photo.comments = generateComments(getRandomInt(1, 10));
+    photo.comments = generateComments(getRandomInt(1, 10), messages, names);
     photos.push(photo);
   }
   return photos;
@@ -55,7 +55,7 @@ var generatePictureFragment = function (arr) {
 };
 
 var appendPicture = function () {
-  document.querySelector('.pictures').appendChild(generatePictureFragment(generatePhotoObjects(25)));
+  document.querySelector('.pictures').appendChild(generatePictureFragment(generatePhotoObjects(25, COMMENT_MESSAGES, COMMENT_NAMES, PICTURE_DESCRIPTIONS)));
 };
 
 appendPicture();
