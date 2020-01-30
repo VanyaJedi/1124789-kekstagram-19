@@ -57,8 +57,8 @@ var generatePictureFragment = function (arr) {
   return fragmentPicture;
 };
 
-var appendPicture = function () {
-  document.querySelector('.pictures').appendChild(generatePictureFragment(photos));
+var appendPicture = function (arrPicture) {
+  document.querySelector('.pictures').appendChild(generatePictureFragment(arrPicture));
 };
 
 var renderComment = function (commentElement) {
@@ -69,10 +69,16 @@ var renderComment = function (commentElement) {
   return commentNode;
 };
 
-var appendComments = function (arr) {
+var generateCommentsFragment = function (arr) {
+  var fragmentComments = document.createDocumentFragment();
   for (var i = 0; i < arr.length; i++) {
-    document.querySelector('.social__comments').appendChild(renderComment(arr[i]));
+    fragmentComments.appendChild(renderComment(arr[i]));
   }
+  return fragmentComments;
+};
+
+var appendComments = function (arr) {
+  document.querySelector('.social__comments').appendChild(generateCommentsFragment(arr));
 };
 
 var showPicture = function (pictureElement) {
@@ -87,6 +93,6 @@ var showPicture = function (pictureElement) {
   document.body.classList.add('modal-open');
 };
 
-appendPicture();
+appendPicture(photos);
 showPicture(photos[0]);
 
