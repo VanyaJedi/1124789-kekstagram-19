@@ -10,8 +10,11 @@ var uploadFile = document.getElementById('upload-file');
 var editImgForm = document.querySelector('.img-upload__overlay');
 var closeImgFormBtn = editImgForm.querySelector('.img-upload__cancel');
 var effectLevelPin = editImgForm.querySelector('.effect-level__pin');
+var effectLevelValue = editImgForm.querySelector('.effect-level__value');
+var effectLevelDepth = editImgForm.querySelector('.effect-level__depth');
 var effectsList = editImgForm.querySelector('.effects__list');
 var hashtags = editImgForm.querySelector('.text__hashtags');
+var commentTextarea = editImgForm.querySelector('.text__description');
 var imgUploadBtn = editImgForm.querySelector('.img-upload__submit');
 
 var getRandomInt = function (min, max) {
@@ -115,7 +118,8 @@ var closeImgForm = function () {
 
 var closeImgFormKeyEscHandler = function (evt) {
   var isHashtagsFocused = (document.activeElement === hashtags);
-  if (evt.key === ESCAPE_BTN && !isHashtagsFocused) {
+  var isCommentFocused = (document.activeElement === commentTextarea);
+  if (evt.key === ESCAPE_BTN && !isHashtagsFocused && !isCommentFocused) {
     closeImgForm();
   }
 };
@@ -128,44 +132,52 @@ uploadFile.addEventListener('change', function () {
 closeImgFormBtn.addEventListener('click', closeImgForm);
 
 effectLevelPin.addEventListener('mouseup', function (evt) {
-  var totalHeight = getComputedStyle(evt.target.parentNode).width;
+  var totalWidth = getComputedStyle(evt.target.parentNode).width;
   var pinPos = evt.target.offsetLeft;
-  var effectLevel = pinPos / parseInt(totalHeight, 10);
+  var effectLevel = pinPos / parseInt(totalWidth, 10);
+  effectLevelValue.value = Math.round(effectLevel * 100);
+  effectLevelDepth.style.width = Math.round(effectLevel * 100) + '%';
 });
 
 var checkHashtags = function (value) {
+  var checkArray = [];
   if (value === '' || value === null) {
-    return false;
+    return '';
   }
-  var hashArray = value.split(' ');
+  var hashArray = value.split(/\s+/);
   if (hashArray.length > 5) {
     return 'Допускается не более 5 хештегов';
   }
 
   for (var i = 0; i < hashArray.length; i++) {
     var checkValue = hashArray[i].match(/^#[\wа-яА-я]+/) || [];
-    var counter = 0;
+
     if (hashArray[i] !== checkValue[0]) {
-      return 'Хештег номер ' + (i + 1) + ' имеет неверный формат';
+      return 'Хештег не может содержать пробелы и спецсимволы (#, @, $ и т.п.)';
     }
-    for (var j = 0; j < hashArray.length; j++) {
-      if (hashArray[i].toLowerCase() === hashArray[j].toLowerCase()) {
-        counter++;
-      }
+    if (hashArray[i].length > 20) {
+      return 'Максимальная длина хештега 20 символов';
     }
-    if (counter > 1) {
-      return 'Имеются одинаковые хештеги';
+
+    if (checkArray.includes(hashArray[i].toLowerCase())) {
+      return 'Имеются повторяющиеся хештеги';
+    } else {
+      checkArray.push(hashArray[i].toLowerCase());
     }
   }
-  return false;
+  return '';
+};
+
+var checkCommentTextarea = function (value) {
+  if (value.length > 140) {
+    return 'Длина комментария больге 140 символов'
+  }
+  return '';
 };
 
 
 imgUploadBtn.addEventListener('click', function () {
-  if (checkHashtags(hashtags.value)) {
-    hashtags.setCustomValidity(checkHashtags(hashtags.value));
-  } else {
-    hashtags.setCustomValidity('');
-  }
+  hashtags.setCustomValidity(checkHashtags(hashtags.value));
+  commentTextarea.setCustomValidity(checkCommentTextarea(commentTextarea.value));
 });
 
