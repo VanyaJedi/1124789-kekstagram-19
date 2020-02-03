@@ -3,8 +3,19 @@
 var PICTURE_DESCRIPTIONS = ['Описание1', 'Описание2', 'Описание3', 'Описание4', 'Описание5', 'Описание6', 'Описание7'];
 var COMMENT_MESSAGES = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
 var COMMENT_NAMES = ['Артем', 'Иван', 'Андрей', 'Сергей', 'Денис', 'Петр', 'Павел', 'Вероника'];
+var ESCAPE_BTN = 'Escape';
 var pictureTemplate = document.querySelector('#picture').content.firstElementChild;
 var bigPicture = document.querySelector('.big-picture');
+var uploadFile = document.getElementById('upload-file');
+var editImgForm = document.querySelector('.img-upload__overlay');
+var closeImgFormBtn = editImgForm.querySelector('.img-upload__cancel');
+var effectLevelPin = editImgForm.querySelector('.effect-level__pin');
+var effectLevelValue = editImgForm.querySelector('.effect-level__value');
+var effectLevelDepth = editImgForm.querySelector('.effect-level__depth');
+var effectsList = editImgForm.querySelector('.effects__list');
+var hashtags = editImgForm.querySelector('.text__hashtags');
+var commentTextarea = editImgForm.querySelector('.text__description');
+var imgUploadBtn = editImgForm.querySelector('.img-upload__submit');
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -92,5 +103,81 @@ var showPicture = function (pictureElement) {
 };
 
 appendPicture(generatePictureFragment(photos));
-showPicture(photos[0]);
+// showPicture(photos[0]);
+
+var openImgForm = function () {
+  editImgForm.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+};
+
+var closeImgForm = function () {
+  editImgForm.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  editImgForm.value = '';
+};
+
+var closeImgFormKeyEscHandler = function (evt) {
+  var isHashtagsFocused = (document.activeElement === hashtags);
+  var isCommentFocused = (document.activeElement === commentTextarea);
+  if (evt.key === ESCAPE_BTN && !isHashtagsFocused && !isCommentFocused) {
+    closeImgForm();
+  }
+};
+
+uploadFile.addEventListener('change', function () {
+  openImgForm();
+  document.addEventListener('keydown', closeImgFormKeyEscHandler);
+});
+
+closeImgFormBtn.addEventListener('click', closeImgForm);
+
+effectLevelPin.addEventListener('mouseup', function (evt) {
+  var totalWidth = getComputedStyle(evt.target.parentNode).width;
+  var pinPos = evt.target.offsetLeft;
+  var effectLevel = pinPos / parseInt(totalWidth, 10);
+  effectLevelValue.value = Math.round(effectLevel * 100);
+  effectLevelDepth.style.width = Math.round(effectLevel * 100) + '%';
+});
+
+var checkHashtags = function (value) {
+  var checkArray = [];
+  if (value === '' || value === null) {
+    return '';
+  }
+  var hashArray = value.split(/\s+/);
+  if (hashArray.length > 5) {
+    return 'Допускается не более 5 хештегов';
+  }
+
+  for (var i = 0; i < hashArray.length; i++) {
+    var checkValue = hashArray[i].match(/^#[\wа-яА-я]+/) || [];
+
+    if (hashArray[i] !== checkValue[0]) {
+      return 'Хештег не может содержать пробелы и спецсимволы (#, @, $ и т.п.)';
+    }
+    if (hashArray[i].length > 20) {
+      return 'Максимальная длина хештега 20 символов';
+    }
+
+    if (checkArray.includes(hashArray[i].toLowerCase())) {
+      return 'Имеются повторяющиеся хештеги';
+    } else {
+      checkArray.push(hashArray[i].toLowerCase());
+    }
+  }
+  return '';
+};
+
+var checkCommentTextarea = function (value) {
+  if (value.length > 140) {
+    return 'Длина комментария больге 140 символов'
+  }
+  return '';
+};
+
+
+imgUploadBtn.addEventListener('click', function () {
+  hashtags.setCustomValidity(checkHashtags(hashtags.value));
+  commentTextarea.setCustomValidity(checkCommentTextarea(commentTextarea.value));
+});
 
