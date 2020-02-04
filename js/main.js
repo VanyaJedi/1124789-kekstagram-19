@@ -4,8 +4,11 @@ var PICTURE_DESCRIPTIONS = ['Описание1', 'Описание2', 'Опис�
 var COMMENT_MESSAGES = ['Всё отлично!', 'В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
 var COMMENT_NAMES = ['Артем', 'Иван', 'Андрей', 'Сергей', 'Денис', 'Петр', 'Павел', 'Вероника'];
 var ESCAPE_BTN = 'Escape';
+var ENTER_BTN = 'Enter';
 var pictureTemplate = document.querySelector('#picture').content.firstElementChild;
+var pictures = document.querySelector('.pictures');
 var bigPicture = document.querySelector('.big-picture');
+var closeBigPictureBtn = bigPicture.querySelector('.big-picture__cancel');
 var uploadFile = document.getElementById('upload-file');
 var editImgForm = document.querySelector('.img-upload__overlay');
 var closeImgFormBtn = editImgForm.querySelector('.img-upload__cancel');
@@ -63,13 +66,15 @@ var renderPicture = function (pictureElement) {
 var generatePictureFragment = function (arr) {
   var fragmentPicture = document.createDocumentFragment();
   for (var i = 0; i < arr.length; i++) {
-    fragmentPicture.appendChild(renderPicture(arr[i]));
+    var pictureElement = renderPicture(arr[i]);
+    pictureElement.setAttribute('data-num', i);
+    fragmentPicture.appendChild(pictureElement);
   }
   return fragmentPicture;
 };
 
 var appendPicture = function (fragment) {
-  document.querySelector('.pictures').appendChild(fragment);
+  pictures.appendChild(fragment);
 };
 
 var renderComment = function (commentElement) {
@@ -103,7 +108,41 @@ var showPicture = function (pictureElement) {
 };
 
 appendPicture(generatePictureFragment(photos));
-// showPicture(photos[0]);
+
+var showBigPictureHandler = function (evt) {
+  if (evt.target.parentNode.classList.contains('picture')) {
+    var elementNum = evt.target.parentNode.getAttribute('data-num');
+    showPicture(photos[elementNum]);
+    document.addEventListener('keydown', closeBigPictureHandler);
+  }
+};
+
+var showBigPictureEnterHandler = function (evt) {
+  var isBigPictureFocused = (document.activeElement.classList.contains('picture'));
+  if (evt.key === ENTER_BTN && isBigPictureFocused) {
+    var elementNum = document.activeElement.getAttribute('data-num');
+    showPicture(photos[elementNum]);
+    document.addEventListener('keydown', closeBigPictureHandler);
+  }
+};
+
+var closeBigPicture = function () {
+  bigPicture.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  document.removeEventListener('click', closeBigPictureHandler);
+};
+
+var closeBigPictureHandler = function (evt) {
+  var isBigPictureCommentFocused = (document.activeElement === bigPicture.querySelector('.social__footer-text'));
+  if (evt.key === ESCAPE_BTN && !isBigPictureCommentFocused) {
+    closeBigPicture();
+  }
+};
+
+closeBigPictureBtn.addEventListener('click', closeBigPicture);
+
+pictures.addEventListener('click', showBigPictureHandler);
+document.addEventListener('keydown', showBigPictureEnterHandler);
 
 var openImgForm = function () {
   editImgForm.classList.remove('hidden');
@@ -168,16 +207,6 @@ var checkHashtags = function (value) {
   return '';
 };
 
-var checkCommentTextarea = function (value) {
-  if (value.length > 140) {
-    return 'Длина комментария больге 140 символов'
-  }
-  return '';
-};
-
-
 imgUploadBtn.addEventListener('click', function () {
   hashtags.setCustomValidity(checkHashtags(hashtags.value));
-  commentTextarea.setCustomValidity(checkCommentTextarea(commentTextarea.value));
 });
-
