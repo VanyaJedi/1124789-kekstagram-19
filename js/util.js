@@ -69,6 +69,12 @@
   };
 
 
+  var removeAllClasses = function (elem) {
+    for (var i = 0; i < elem.classList.length; i++) {
+      elem.classList.remove(elem.classList[i]);
+    }
+  };
+
   var photos = generatePhotoObjects(25, COMMENT_MESSAGES, COMMENT_NAMES, PICTURE_DESCRIPTIONS);
 
   window.util = {
@@ -77,7 +83,8 @@
     ENTER_BTN: ENTER_BTN,
     getRandomInt: getRandomInt,
     getRandomArrValue: getRandomArrValue,
-    checkHashtags: checkHashtags
+    checkHashtags: checkHashtags,
+    removeAllClasses: removeAllClasses
   };
 
 })();

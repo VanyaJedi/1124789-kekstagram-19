@@ -5,10 +5,6 @@
   var uploadFile = document.getElementById('upload-file');
   var editImgForm = document.querySelector('.img-upload__overlay');
   var closeImgFormBtn = editImgForm.querySelector('.img-upload__cancel');
-  var effectLevelPin = editImgForm.querySelector('.effect-level__pin');
-  var effectLevelValue = editImgForm.querySelector('.effect-level__value');
-  var effectLevelDepth = editImgForm.querySelector('.effect-level__depth');
-  var effectsList = editImgForm.querySelector('.effects__list');
   var hashtags = editImgForm.querySelector('.text__hashtags');
   var commentTextarea = editImgForm.querySelector('.text__description');
   var imgUploadBtn = editImgForm.querySelector('.img-upload__submit');
@@ -38,14 +34,6 @@
   });
 
   closeImgFormBtn.addEventListener('click', closeImgForm);
-
-  effectLevelPin.addEventListener('mouseup', function (evt) {
-    var totalWidth = getComputedStyle(evt.target.parentNode).width;
-    var pinPos = evt.target.offsetLeft;
-    var effectLevel = pinPos / parseInt(totalWidth, 10);
-    effectLevelValue.value = Math.round(effectLevel * 100);
-    effectLevelDepth.style.width = Math.round(effectLevel * 100) + '%';
-  });
 
   imgUploadBtn.addEventListener('click', function () {
     hashtags.setCustomValidity(window.util.checkHashtags(hashtags.value));
