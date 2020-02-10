@@ -31,11 +31,12 @@
         effectLevel = pinPos / parseInt(totalWidth, 10);
       }
 
-      effectLevelValue.value = Math.round(effectLevel * 100);
-      effectLevelPin.style.left = Math.round(effectLevel * 100) + '%';
-      effectLevelDepth.style.width = Math.round(effectLevel * 100) + '%';
+      var effectLevelRounded = Math.round(effectLevel * 100);
 
-      window.effectLevel = effectLevel;
+      effectLevelValue.value = effectLevelRounded;
+      effectLevelPin.style.left = effectLevelRounded + '%';
+      effectLevelDepth.style.width = effectLevelRounded + '%';
+      window.changeValueFilterHandler(effectLevel);
     };
 
     document.addEventListener('mousemove', movePinHandler);

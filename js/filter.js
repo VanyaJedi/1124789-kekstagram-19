@@ -9,43 +9,38 @@
   var uploadImgForEdit = editImgForm.querySelector('.img-upload__preview img');
 
 
-  var changeFilterHandler = function () {
+  var changeFilterHandler = function (evt) {
     uploadImgForEdit.removeAttribute('style');
     window.util.removeAllClasses(uploadImgForEdit);
     effectLevelPin.style.left = '100%';
     effectLevelDepth.style.width = '100%';
 
-    if (this.value) {
-      var classForImg = 'effects__preview--' + this.value;
+    if (evt.target.value) {
+      var classForImg = 'effects__preview--' + evt.target.value;
       uploadImgForEdit.classList.add(classForImg);
     }
   };
 
-  for (var i = 0; i < effectInputs.length; i++) {
-    effectInputs[i].addEventListener('change', changeFilterHandler);
-  }
-
-
-  effectLevelPin.addEventListener('mousedown', function () {
-
-    var changeValueFilterHandler = function () {
-      if (uploadImgForEdit.classList.contains('effects__preview--chrome')) {
-        uploadImgForEdit.style.filter = 'grayscale(' + window.effectLevel + ')';
-      } else if (uploadImgForEdit.classList.contains('effects__preview--sepia')) {
-        uploadImgForEdit.style.filter = 'sepia(' + window.effectLevel + ')';
-      } else if (uploadImgForEdit.classList.contains('effects__preview--marvin')) {
-        uploadImgForEdit.style.filter = 'invert(' + window.effectLevel * 100 + '%)';
-      } else if (uploadImgForEdit.classList.contains('effects__preview--phobos')) {
-        uploadImgForEdit.style.filter = 'blur(' + window.effectLevel * 3 + 'px)';
-      } else if (uploadImgForEdit.classList.contains('effects__preview--heat')) {
-        uploadImgForEdit.style.filter = 'brightness(' + window.effectLevel * 3 + ')';
-      }
-    };
-
-    document.addEventListener('mousemove', changeValueFilterHandler);
-    document.addEventListener('mouseup', function () {
-      document.removeEventListener('mousemove', changeValueFilterHandler);
-    });
+  effectsList.addEventListener('click', function (evt) {
+    if (evt.target.classList.contains('effects__radio')) {
+      changeFilterHandler(evt);
+    }
   });
+
+  var changeValueFilterHandler = function (lvl) {
+    if (uploadImgForEdit.classList.contains('effects__preview--chrome')) {
+      uploadImgForEdit.style.filter = 'grayscale(' + lvl + ')';
+    } else if (uploadImgForEdit.classList.contains('effects__preview--sepia')) {
+      uploadImgForEdit.style.filter = 'sepia(' + lvl + ')';
+    } else if (uploadImgForEdit.classList.contains('effects__preview--marvin')) {
+      uploadImgForEdit.style.filter = 'invert(' + lvl * 100 + '%)';
+    } else if (uploadImgForEdit.classList.contains('effects__preview--phobos')) {
+      uploadImgForEdit.style.filter = 'blur(' + lvl * 3 + 'px)';
+    } else if (uploadImgForEdit.classList.contains('effects__preview--heat')) {
+      uploadImgForEdit.style.filter = 'brightness(' + lvl * 3 + ')';
+    }
+  };
+
+  window.changeValueFilterHandler = changeValueFilterHandler;
 
 })();
