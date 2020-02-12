@@ -29,7 +29,15 @@
     pictures.appendChild(fragment);
   };
 
-  appendPicture(generatePictureFragment(window.util.photos));
+  var showData = function (data) {
+    appendPicture(generatePictureFragment(data));
+  };
+
+  var showDataError = function (errorMessage) {
+    console.log(errorMessage);
+  };
+
+  window.backend.load(showData, showDataError);
 
   var renderComment = function (commentElement) {
     var commentNode = document.querySelector('.social__comment').cloneNode(true);
