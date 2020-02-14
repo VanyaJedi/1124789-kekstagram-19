@@ -3,7 +3,6 @@
 (function () {
   var editImgForm = document.querySelector('.img-upload__overlay');
   var effectsList = editImgForm.querySelector('.effects__list');
-  var effectInputs = effectsList.querySelectorAll('.effects__radio');
   var effectLevelPin = editImgForm.querySelector('.effect-level__pin');
   var effectLevelDepth = editImgForm.querySelector('.effect-level__depth');
   var uploadImgForEdit = editImgForm.querySelector('.img-upload__preview img');

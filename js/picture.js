@@ -29,7 +29,11 @@
     pictures.appendChild(fragment);
   };
 
-  appendPicture(generatePictureFragment(window.util.photos));
+  var showData = function (data) {
+    appendPicture(generatePictureFragment(data));
+  };
+
+  window.backend.load(showData);
 
   var renderComment = function (commentElement) {
     var commentNode = document.querySelector('.social__comment').cloneNode(true);
@@ -65,7 +69,7 @@
   var showBigPictureHandler = function (evt) {
     if (evt.target.parentNode.classList.contains('picture')) {
       var elementNum = evt.target.parentNode.getAttribute('data-num');
-      showPicture(window.util.photos[elementNum]);
+      showPicture(window.backend.serverResponse[elementNum]);
       document.addEventListener('keydown', closeBigPictureHandler);
     }
   };
@@ -74,7 +78,7 @@
     var isBigPictureFocused = (document.activeElement.classList.contains('picture'));
     if (evt.key === window.util.ENTER_BTN && isBigPictureFocused) {
       var elementNum = document.activeElement.getAttribute('data-num');
-      showPicture(window.util.photos[elementNum]);
+      showPicture(window.serverResponse[elementNum]);
       document.addEventListener('keydown', closeBigPictureHandler);
     }
   };
