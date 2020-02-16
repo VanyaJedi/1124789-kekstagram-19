@@ -6,6 +6,7 @@
   var effectLevelPin = editImgForm.querySelector('.effect-level__pin');
   var effectLevelDepth = editImgForm.querySelector('.effect-level__depth');
   var uploadImgForEdit = editImgForm.querySelector('.img-upload__preview img');
+  var effectLevel = editImgForm.querySelector('.effect-level');
 
 
   var changeFilterHandler = function (evt) {
@@ -23,6 +24,11 @@
   effectsList.addEventListener('click', function (evt) {
     if (evt.target.classList.contains('effects__radio')) {
       changeFilterHandler(evt);
+      if (evt.target.getAttribute('id') !== 'effect-none') {
+        effectLevel.classList.remove('hidden');
+      } else {
+        effectLevel.classList.add('hidden');
+      }
     }
   });
 
