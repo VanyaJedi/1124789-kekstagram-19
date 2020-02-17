@@ -36,7 +36,7 @@
       effectLevelValue.value = effectLevelRounded;
       effectLevelPin.style.left = effectLevelRounded + '%';
       effectLevelDepth.style.width = effectLevelRounded + '%';
-      window.changeValueFilterHandler(effectLevel);
+      window.filter.changeValueFilterHandler(effectLevel);
     };
 
     document.addEventListener('mousemove', movePinHandler);

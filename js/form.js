@@ -12,7 +12,6 @@
   var successMessageTemplate = document.querySelector('#success').content.firstElementChild;
   var errorMessageTemplate = document.querySelector('#error').content.firstElementChild;
   var originalFilter = document.getElementById('effect-none');
-  var scaleInput = document.querySelector('.scale__control--value');
 
   var openImgForm = function () {
     editImgForm.classList.remove('hidden');
@@ -25,8 +24,8 @@
     inputUpload.value = '';
     hashtags.value = '';
     commentTextarea.value = '';
-    scaleInput.value = '100%';
-    originalFilter.click();
+    window.filter.setDefaultFilter();
+    originalFilter.checked = true;
   };
 
   var closeImgFormKeyEscHandler = function (evt) {

@@ -17,7 +17,7 @@
 
   scaleDown.addEventListener('click', function () {
     var currentValue = parseInt(scaleInput.value, 10);
-    var nextValue = (currentValue - 25) < 0 ? 0 : (currentValue - 25);
+    var nextValue = (currentValue - 25) < 25 ? 25 : (currentValue - 25);
     scaleInput.value = nextValue + '%';
     var scale = nextValue / 100;
     uploadImgForEdit.style.transform = 'scale(' + scale + ')';
