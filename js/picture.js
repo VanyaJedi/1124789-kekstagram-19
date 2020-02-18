@@ -30,6 +30,7 @@
   };
 
   var showData = function (data) {
+    window.backend.serverResponse = data;
     appendPicture(generatePictureFragment(data));
   };
 
