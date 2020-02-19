@@ -31,12 +31,12 @@
     return window.backend.serverResponse;
   };
 
-  var changeFilter = function (cb) {
+  var changeFilter = window.debounce(function (cb) {
     var arrayCopy = window.backend.serverResponse.slice();
     var data = cb(arrayCopy);
     deletePictures();
     window.appendPicture(data);
-  };
+  });
 
 
   var makeActiveBtn = function (evt) {
@@ -51,13 +51,13 @@
       var filterType = evt.target.getAttribute('id');
       switch (filterType) {
         case 'filter-random':
-          window.debounce(changeFilter(randomPhotos));
+          changeFilter(randomPhotos);
           break;
         case 'filter-discussed':
-          window.debounce(changeFilter(sortPhotos));
+          changeFilter(sortPhotos);
           break;
         default:
-          window.debounce(changeFilter(defaultPhotos));
+          changeFilter(defaultPhotos);
           break;
       }
       makeActiveBtn(evt);
