@@ -2,17 +2,19 @@
 (function () {
   var DEBOUNCE_INTERVAL = 500; // ms
 
-  window.debounce = function (cb) {
-    var lastTimeout = null;
+  window.debounce = function debounce(f, ms) {
 
-    return function () {
-      var parameters = arguments;
-      if (lastTimeout) {
-        window.clearTimeout(lastTimeout);
-      }
-      lastTimeout = window.setTimeout(function () {
-        cb.apply(null, parameters);
-      }, DEBOUNCE_INTERVAL);
+    let isCooldown = false;
+
+    return function() {
+      if (isCooldown) return;
+
+      f.apply(this, arguments);
+
+      isCooldown = true;
+
+      setTimeout(() => isCooldown = false, DEBOUNCE_INTERVAL);
     };
+
   };
 })();
