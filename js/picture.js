@@ -36,6 +36,7 @@
   };
 
   var showPicture = function (pictureElement) {
+    bigPicture.querySelector('.comments-loader').removeEventListener('click', insertMoreComments);
     var commentsArray = pictureElement.comments.slice();
     bigPicture.querySelector('.big-picture__img').firstElementChild.setAttribute('src', pictureElement.url);
     bigPicture.querySelector('.likes-count').innerText = pictureElement.likes;
@@ -55,7 +56,6 @@
     };
 
     bigPicture.querySelector('.comments-loader').addEventListener('click', insertMoreComments);
-
   };
 
   var showBigPictureHandler = function (evt) {
