@@ -24,26 +24,38 @@
   };
 
   var generateCommentsFragment = function (arr) {
+    var len = arr.length > 5 ? 5 : arr.length;
     var fragmentComments = document.createDocumentFragment();
     var allCommentsNode = document.querySelector('.social__comments').cloneNode();
-    for (var i = 0; i < arr.length; i++) {
+    for (var i = 0; i < len; i++) {
       allCommentsNode.appendChild(renderComment(arr[i]));
     }
     fragmentComments.appendChild(allCommentsNode);
+    arr.splice(0, len);
     return fragmentComments;
   };
 
-
   var showPicture = function (pictureElement) {
+    var commentsArray = pictureElement.comments.slice();
     bigPicture.querySelector('.big-picture__img').firstElementChild.setAttribute('src', pictureElement.url);
     bigPicture.querySelector('.likes-count').innerText = pictureElement.likes;
     bigPicture.querySelector('.comments-count').innerText = pictureElement.comments.length;
     bigPicture.querySelector('.social__caption').innerText = pictureElement.description;
     bigPicture.querySelector('.social__comment-count').classList.add('hidden');
-    bigPicture.querySelector('.comments-loader').classList.add('hidden');
-    bigPicture.querySelector('.social__comments').parentNode.replaceChild(generateCommentsFragment(pictureElement.comments), bigPicture.querySelector('.social__comments'));
+    bigPicture.querySelector('.social__comments').parentNode.replaceChild(generateCommentsFragment(commentsArray), bigPicture.querySelector('.social__comments'));
     bigPicture.classList.remove('hidden');
     document.body.classList.add('modal-open');
+
+    var insertMoreComments = function () {
+      var len = commentsArray.length > 5 ? 5 : commentsArray.length;
+      for (var i = 0; i < len; i++) {
+        bigPicture.querySelector('.social__comments').appendChild(renderComment(commentsArray[i]));
+      }
+      commentsArray.splice(0, len);
+    };
+
+    bigPicture.querySelector('.comments-loader').addEventListener('click', insertMoreComments);
+
   };
 
   var showBigPictureHandler = function (evt) {
