@@ -36,6 +36,7 @@
     var data = cb(arrayCopy);
     deletePictures();
     window.appendPicture(data);
+    window.backend.filterPictures = data;
   });
 
 
