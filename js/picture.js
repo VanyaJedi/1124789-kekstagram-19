@@ -42,10 +42,14 @@
     var commentsArray = pictureElement.comments.slice();
     bigPicture.querySelector('.big-picture__img').firstElementChild.setAttribute('src', pictureElement.url);
     bigPicture.querySelector('.likes-count').innerText = pictureElement.likes;
-    bigPicture.querySelector('.comments-count-show').innerText = COMMENTS_SHOW;
+    bigPicture.querySelector('.comments-count-show').innerText = COMMENTS_SHOW > pictureElement.comments.length ? pictureElement.comments.length : COMMENTS_SHOW;
     bigPicture.querySelector('.comments-count').innerText = pictureElement.comments.length;
     bigPicture.querySelector('.social__caption').innerText = pictureElement.description;
-    bigPicture.querySelector('.comments-loader').classList.remove('hidden');
+    if (pictureElement.comments.length > COMMENTS_SHOW) {
+      bigPicture.querySelector('.comments-loader').classList.remove('hidden');
+    } else {
+      bigPicture.querySelector('.comments-loader').classList.add('hidden');
+    }
     bigPicture.querySelector('.social__comments').parentNode.replaceChild(generateCommentsFragment(commentsArray), bigPicture.querySelector('.social__comments'));
     bigPicture.classList.remove('hidden');
     document.body.classList.add('modal-open');
