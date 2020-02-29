@@ -38,16 +38,23 @@
   });
 
   var changeValueFilterHandler = function (lvl) {
-    if (uploadImgForEdit.classList.contains('effects__preview--chrome')) {
-      uploadImgForEdit.style.filter = 'grayscale(' + lvl + ')';
-    } else if (uploadImgForEdit.classList.contains('effects__preview--sepia')) {
-      uploadImgForEdit.style.filter = 'sepia(' + lvl + ')';
-    } else if (uploadImgForEdit.classList.contains('effects__preview--marvin')) {
-      uploadImgForEdit.style.filter = 'invert(' + lvl * 100 + '%)';
-    } else if (uploadImgForEdit.classList.contains('effects__preview--phobos')) {
-      uploadImgForEdit.style.filter = 'blur(' + lvl * 3 + 'px)';
-    } else if (uploadImgForEdit.classList.contains('effects__preview--heat')) {
-      uploadImgForEdit.style.filter = 'brightness(' + lvl * 3 + ')';
+    var currentClass = uploadImgForEdit.classList.value;
+    switch (currentClass) {
+      case 'effects__preview--chrome':
+        uploadImgForEdit.style.filter = 'grayscale(' + lvl + ')';
+        break;
+      case 'effects__preview--sepia':
+        uploadImgForEdit.style.filter = 'sepia(' + lvl + ')';
+        break;
+      case 'effects__preview--marvin':
+        uploadImgForEdit.style.filter = 'invert(' + lvl * 100 + '%)';
+        break;
+      case 'effects__preview--phobos':
+        uploadImgForEdit.style.filter = 'blur(' + lvl * 3 + 'px)';
+        break;
+      case 'effects__preview--heat':
+        uploadImgForEdit.style.filter = 'brightness(' + lvl * 3 + ')';
+        break;
     }
   };
 

@@ -11,18 +11,18 @@
     }
   };
 
-  var randomPhotos = function (array) {
+  var randomPhotos = function (arr) {
     var randomArray = [];
     for (var i = 0; i < 10; i++) {
-      var indexElem = window.util.getRandomInt(0, array.length);
-      randomArray.push(array[indexElem]);
-      array.splice(indexElem, 1);
+      var indexElem = window.util.getRandomInt(0, arr.length);
+      randomArray.push(arr[indexElem]);
+      arr.splice(indexElem, 1);
     }
     return randomArray;
   };
 
-  var sortPhotos = function (array) {
-    return array.sort(function (a, b) {
+  var sortPhotos = function (arr) {
+    return arr.sort(function (a, b) {
       return b.comments.length - a.comments.length;
     });
   };

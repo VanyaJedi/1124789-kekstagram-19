@@ -3,6 +3,7 @@
 (function () {
 
   var form = document.querySelector('.img-upload__form');
+  var formBtn = document.querySelector('.img-upload__submit');
   var inputUpload = form.querySelector('.img-upload__input');
   var uploadFile = document.getElementById('upload-file');
   var editImgForm = document.querySelector('.img-upload__overlay');
@@ -100,6 +101,9 @@
     showErrorMessage();
   };
 
+  formBtn.addEventListener('click', function () {
+    hashtags.setCustomValidity(window.util.checkHashtags(hashtags.value));
+  });
 
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
