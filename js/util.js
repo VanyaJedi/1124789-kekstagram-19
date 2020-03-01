@@ -3,6 +3,8 @@
 (function () {
   var ESCAPE_BTN = 'Escape';
   var ENTER_BTN = 'Enter';
+  var URL = 'https://js.dump.academy/kekstagram/data';
+  var URL_SEND = 'https://js.dump.academy/kekstagram';
 
   var getRandomInt = function (min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
@@ -50,7 +52,9 @@
     ENTER_BTN: ENTER_BTN,
     getRandomInt: getRandomInt,
     checkHashtags: checkHashtags,
-    removeAllClasses: removeAllClasses
+    removeAllClasses: removeAllClasses,
+    URL: URL,
+    URL_SEND: URL_SEND
   };
 
 })();

@@ -36,7 +36,8 @@
       effectLevelValue.value = effectLevelRounded;
       effectLevelPin.style.left = effectLevelRounded + '%';
       effectLevelDepth.style.width = effectLevelRounded + '%';
-      window.filter.changeValueFilterHandler(effectLevel);
+      var effectValue = document.querySelector('#upload-select-image .effects__radio:checked').value;
+      window.filter.changeValueFilterHandler(effectLevel, effectValue);
     };
 
     document.addEventListener('mousemove', movePinHandler);

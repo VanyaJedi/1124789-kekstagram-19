@@ -22,9 +22,8 @@
     return fragmentPicture;
   };
 
-  var appendPicture = function (fragment) {
+  window.appendPicture = function (fragment) {
     pictures.appendChild(generatePictureFragment(fragment));
   };
 
-  window.appendPicture = appendPicture;
 })();

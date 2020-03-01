@@ -44,10 +44,10 @@
 
   closeImgFormBtn.addEventListener('click', closeImgForm);
 
-  var removeSuccesMessage = function (evt) {
+  var removeSuccessMessage = function (evt) {
     if (evt.target.classList.contains('success__button') || evt.target.classList.contains('success')) {
       document.querySelector('main').removeChild(successMessageTemplate);
-      successMessageTemplate.removeEventListener('click', removeSuccesMessage);
+      successMessageTemplate.removeEventListener('click', removeSuccessMessage);
     }
   };
 
@@ -74,7 +74,7 @@
 
   var showSuccessMessage = function () {
     document.querySelector('main').appendChild(successMessageTemplate);
-    successMessageTemplate.addEventListener('click', removeSuccesMessage);
+    successMessageTemplate.addEventListener('click', removeSuccessMessage);
     document.addEventListener('keydown', removeEscMessage);
   };
 
@@ -108,6 +108,6 @@
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
     hashtags.setCustomValidity(window.util.checkHashtags(hashtags.value));
-    window.backend.save(new FormData(form), sendData, errorSendData);
+    window.backend.responseToServer(sendData, 'POST', 10000, window.util.URL_SEND, new FormData(form), errorSendData);
   });
 })();
