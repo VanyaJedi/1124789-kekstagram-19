@@ -16,7 +16,7 @@
     filterPhotos.classList.remove('img-filters--inactive');
   };
 
-  window.backend.responseToServer(showData, 'GET', 10000, window.util.URL);
+  window.backend.responseToServer(window.util.URL, 'GET', {}, 10000, showData);
 
   var renderComment = function (commentElement) {
     var commentNode = document.querySelector('.social__comment').cloneNode(true);

@@ -108,6 +108,6 @@
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
     hashtags.setCustomValidity(window.util.checkHashtags(hashtags.value));
-    window.backend.responseToServer(sendData, 'POST', 10000, window.util.URL_SEND, new FormData(form), errorSendData);
+    window.backend.responseToServer(window.util.URL_SEND, 'POST', new FormData(form), 10000, sendData, errorSendData);
   });
 })();
